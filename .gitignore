@@ -6,8 +6,8 @@
 
 # Javascript
 # Ignore .env files in backend and client directories
-users/johnf/Git/fitness-socialmedia-website/backend/.env
-users/johnf/Git/fitness-socialmedia-website/client/.env
+.env
+
 
 
 # Logs
