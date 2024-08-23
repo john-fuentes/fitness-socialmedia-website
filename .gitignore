@@ -5,6 +5,10 @@
 **/*.iml
 
 # Javascript
+# Ignore .env files in backend and client directories
+users/johnf/Git/fitsocialmedia/backend/.env
+users/johnf/Git/fitsocialmedia/client/.env
+
 
 # Logs
 logs
