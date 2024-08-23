@@ -3,3 +3,5 @@
 
 #hide application.yml file
 application.yml
+
+application-test.yml
