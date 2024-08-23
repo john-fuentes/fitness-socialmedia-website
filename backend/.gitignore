@@ -1,1 +1,5 @@
+#hide .env file
 .env
+
+#hide application.yml file
+application.yml
