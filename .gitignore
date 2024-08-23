@@ -7,7 +7,8 @@
 # Javascript
 # Ignore .env files in backend and client directories
 .env
-
+#ignore docker-compose.yml
+docker-compose.yml
 
 
 # Logs
