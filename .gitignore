@@ -9,7 +9,7 @@
 .env
 #ignore docker-compose.yml
 docker-compose.yml
-
+Dockerrun.aws.json
 
 # Logs
 logs
