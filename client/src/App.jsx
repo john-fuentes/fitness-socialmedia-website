@@ -10,7 +10,8 @@ import ProfilePage from "./Pages/ProfilePage.jsx";
 import RegisterPage from "./Pages/RegisterPage.jsx";
 import MainFeedPage from "./Pages/MainFeedPage.jsx";
 import ProfileSettings from "./Pages/ProfileSettings.jsx";
-import AccountSettings from "./Pages/AccountSettings.jsx"; // Example page
+import AccountSettings from "./Pages/AccountSettings.jsx";
+import CreatePostForm from "./Pages/CreatePostForm.jsx"; // Example page
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />}/>
           <Route path="/mainfeedpage" element={<MainFeedPage />}/>
             <Route path="/settings/:username" element={<AccountSettings/>}/>
+            <Route path="/post" element={<CreatePostForm/>}/>
         </Routes>
       </AuthProvider>
   );

@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext"; // Import the AuthContext
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
+
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);

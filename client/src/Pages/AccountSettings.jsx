@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext.jsx";
 import Dropzone from 'react-dropzone';
 import { customerProfilePictureUrl, uploadCustomerProfilePicture, updateCustomer } from "../services/client.js";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navigate } from "react-router-dom";
 
 export default function AccountSettings() {

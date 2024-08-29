@@ -1,4 +1,4 @@
-package com.amigoscode.customer;
+/*package com.amigoscode.customer;
 
 import org.springframework.stereotype.Repository;
 
@@ -89,3 +89,5 @@ public class CustomerListDataAccessService implements CustomerDao {
     }
 
 }
+
+ */

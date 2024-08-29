@@ -1,6 +1,7 @@
 import {useAuth} from "../context/AuthContext.jsx";
 import React from "react";
 import {customerProfilePictureUrl} from "../services/client.js";
+import {Link} from "react-router-dom";
 
 export default function ProfilePage(){
 const {customer} = useAuth();
@@ -20,6 +21,9 @@ const profileImage = customerId ? customerProfilePictureUrl(customerId) : null;
             <div className="text-white text-4xl flex justify-center items-center bg-mainGray">
                 {customer.name}
             </div>
+            <Link to="/post">
+                Hello
+            </Link>
         </div>
     )
 }

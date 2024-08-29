@@ -14,6 +14,7 @@ import {useAuth} from "../context/AuthContext.jsx";
 //could pre display
 export default function HomePage() {
     const {customer} = useAuth();
+    // eslint-disable-next-line no-unused-vars
     const customerId = customer?.id;
 
 

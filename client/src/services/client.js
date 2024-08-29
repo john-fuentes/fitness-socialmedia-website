@@ -7,6 +7,7 @@ const getAuthConfig = () => ({
 })
 
 export const getCustomers = async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return await axios.get(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`,
@@ -18,6 +19,7 @@ export const getCustomers = async () => {
 }
 
 export const getCustomer = async () =>{
+    // eslint-disable-next-line no-useless-catch
     try{
         return await axios.get(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/{$customerId}`
@@ -28,6 +30,7 @@ export const getCustomer = async () =>{
 }
 
 export const saveCustomer = async (customer) => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers`,
@@ -39,6 +42,7 @@ export const saveCustomer = async (customer) => {
 }
 
 export const updateCustomer = async (id, update) => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return await axios.put(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`,
@@ -51,6 +55,7 @@ export const updateCustomer = async (id, update) => {
 }
 
 export const deleteCustomer = async (id) => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return await axios.delete(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}`,
@@ -62,6 +67,7 @@ export const deleteCustomer = async (id) => {
 }
 
 export const login = async (usernameAndPassword) => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login`,
@@ -73,6 +79,7 @@ export const login = async (usernameAndPassword) => {
 }
 
 export const uploadCustomerProfilePicture = async (id, formData) => {
+    // eslint-disable-next-line no-useless-catch
     try {
         return axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}/profile-image`,
@@ -89,3 +96,27 @@ export const uploadCustomerProfilePicture = async (id, formData) => {
 
 export const customerProfilePictureUrl = (id) =>
     `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${id}/profile-image`;
+
+
+export const createPost = async (caption, postImageFile) => {
+    const customerId = localStorage.getItem("customer_id");
+
+    // Create a FormData object
+    const formData = new FormData();
+    formData.append('caption', caption);
+    formData.append('file', postImageFile); // Make sure this matches the server-side name
+    formData.append('customerId', customerId);
+
+    try {
+        return await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/${customerId}/create`,
+            formData,
+            {
+                ...getAuthConfig(),
+                'Content-Type': 'multipart/form-data' // Important for file uploads
+            }
+        );
+    } catch (e) {
+        throw e;
+    }
+};

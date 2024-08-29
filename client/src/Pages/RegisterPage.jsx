@@ -34,7 +34,7 @@ export default function RegisterPage(){
         }
     }
     return(
-        <div className="grow flex items-center justify-around bg-mainGray text-white">
+        <div className="grow flex items-center justify-around bg-mainGray text-white min-h-screen">
             <div className="mb-64">
                 <h1 className="text-4xl text-center mb-6">Register</h1>
                 <form className=" max-w-md mx-auto text-black" onSubmit={registerUser}>

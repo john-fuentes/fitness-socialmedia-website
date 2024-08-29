@@ -8,10 +8,15 @@ import org.springframework.context.annotation.Configuration;
 public class S3Buckets {
 
     private String customer;
+    private String post;
 
     public String getCustomer() {
         return customer;
     }
+
+    public String getPost(){ return post;}
+
+    public void setPost(String post) {this.post = post;}
 
     public void setCustomer(String customer) {
         this.customer = customer;
