@@ -129,5 +129,24 @@ public class PostService {
     }
 
 
+    public List<PostDTO> getPostsByCustomer(Integer customerId) {
+        checkIfCustomerExistsOrThrow(customerId); // Ensure the customer exists
+        return postDao.selectPostsByCustomerId(customerId)
+                .stream()
+                .map(postDTOMapper)
+                .collect(Collectors.toList());
+    }
+
+    public byte[] getPostImage(String postImageId, Integer customerId) {
+        if (StringUtils.isBlank(postImageId)) {
+            throw new ResourceNotFoundException("Post image not found");
+        }
+
+        byte[] postImage = s3Service.getObject(
+                s3Buckets.getPost(),
+                "post-images/%s".formatted(postImageId)
+        );
+        return postImage;
+    }
 
 }

@@ -106,6 +106,14 @@ public class Customer implements UserDetails {
         this.gender = gender;
     }
 
+        public Customer(Integer id, String name, String profileImageId) {
+            this.id = id;
+            this.name = name;
+            this.profileImageId = profileImageId;
+        }
+
+
+
     public Integer getId() {
         return id;
     }

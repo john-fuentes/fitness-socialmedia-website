@@ -6,6 +6,7 @@ import com.amigoscode.s3.S3Service;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,12 +28,24 @@ public class PostController {
         return postService.getPost(postId);
     }
 
+    @GetMapping("/customer/{customerId}")
+    public List<PostDTO> getPostsByCustomer(@PathVariable("customerId") Integer customerId) {
+        return postService.getPostsByCustomer(customerId);
+    }
+
     @GetMapping
     public List<PostDTO> getAllPosts() {
         return postService.getAllPosts();
     }
 
+    @GetMapping(value = "/images/{postImageId}",
+            produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getPostImage(@PathVariable("postImageId") String postImageId) {
+        return postService.getPostImage(postImageId);
+    }
+
     // Updated createPost method to accept customerId via the URL
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(
             value = "/{customerId}/create",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE

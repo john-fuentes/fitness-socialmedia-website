@@ -100,13 +100,11 @@ export const customerProfilePictureUrl = (id) =>
 
 export const createPost = async (caption, postImageFile) => {
     const customerId = localStorage.getItem("customer_id");
-
     // Create a FormData object
     const formData = new FormData();
     formData.append('caption', caption);
     formData.append('file', postImageFile); // Make sure this matches the server-side name
     formData.append('customerId', customerId);
-
     try {
         return await axios.post(
             `${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/${customerId}/create`,
@@ -116,6 +114,19 @@ export const createPost = async (caption, postImageFile) => {
                 'Content-Type': 'multipart/form-data' // Important for file uploads
             }
         );
+    } catch (e) {
+        throw e;
+    }
+};
+
+
+export const fetchCustomerPosts = async (customerId) => {
+    try {
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/customer/${customerId}`,
+            getAuthConfig()
+        );
+        return response.data;
     } catch (e) {
         throw e;
     }

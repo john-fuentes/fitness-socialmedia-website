@@ -9,7 +9,7 @@ import HomePage from "./Pages/HomePage.jsx";
 import ProfilePage from "./Pages/ProfilePage.jsx";
 import RegisterPage from "./Pages/RegisterPage.jsx";
 import MainFeedPage from "./Pages/MainFeedPage.jsx";
-import ProfileSettings from "./Pages/ProfileSettings.jsx";
+
 import AccountSettings from "./Pages/AccountSettings.jsx";
 import CreatePostForm from "./Pages/CreatePostForm.jsx"; // Example page
 

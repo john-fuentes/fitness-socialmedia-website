@@ -15,9 +15,12 @@ public class PostRowMapper implements RowMapper<Post> {
         post.setId(rs.getInt("id"));
         post.setCaption(rs.getString("caption"));
         post.setPostImageId(rs.getString("post_image_id"));
-        // Map the customer_id
+
+        // Map the customer details
         Customer customer = new Customer();
         customer.setId(rs.getInt("customer_id"));
+        customer.setName(rs.getString("name"));
+        customer.setProfileImageId(rs.getString("profile_image_id"));
         post.setCustomer(customer);
 
         return post;

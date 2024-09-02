@@ -1,5 +1,6 @@
 package com.amigoscode.post;
 
+import com.amigoscode.customer.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -54,14 +55,43 @@ public class PostJDBCDataAccessService implements PostDao {
     }
 
     @Override
+    public List<Post> selectPostsByCustomerId(Integer customerId) {
+        var sql = """
+        SELECT p.id, p.caption, p.post_image_id, p.customer_id, c.name, c.profile_image_id
+        FROM post p
+        JOIN customer c ON p.customer_id = c.id
+        WHERE p.customer_id = ?
+        """;
+        return jdbcTemplate.query(sql, postRowMapper, customerId);
+    }
+
+
+    @Override
     public Optional<Post> selectPostById(Integer postId) {
         var sql = """
-                SELECT id, caption, post_image_id, customer_id
-                FROM post
-                WHERE id = ?
-                """;
-        return jdbcTemplate.query(sql, postRowMapper, postId).stream().findFirst();
+        SELECT p.id, p.caption, p.post_image_id, p.customer_id, c.name, c.profile_image_id
+        FROM post p
+        JOIN customer c ON p.customer_id = c.id
+        WHERE p.id = ?
+        """;
+        return jdbcTemplate.query(sql, resultSet -> {
+            if (resultSet.next()) {
+                Post post = new Post(
+                        resultSet.getInt("id"),
+                        resultSet.getString("caption"),
+                        resultSet.getString("post_image_id"),
+                        new Customer(
+                                resultSet.getInt("customer_id"),
+                                resultSet.getString("name"),
+                                resultSet.getString("profile_image_id")
+                        )
+                );
+                return Optional.of(post);
+            }
+            return Optional.empty();
+        }, postId);
     }
+
 
     @Override
     public List<Post> selectAllPosts() {

@@ -34,9 +34,16 @@ public class PostJPADataAccessService implements PostDao{
     }
 
     @Override
-    public Optional<Post> selectPostById(Integer postId) {
-        return postRepository.findById(postId);
+    public List<Post> selectPostsByCustomerId(Integer customerId) {
+        return postRepository.findPostsByCustomerId(customerId);
     }
+
+
+    @Override
+    public Optional<Post> selectPostById(Integer postId) {
+        return postRepository.findPostWithCustomerById(postId);
+    }
+
 
     @Override
     public List<Post> selectAllPosts() {

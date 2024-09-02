@@ -15,12 +15,10 @@ const CreatePostForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('caption', caption);
-        formData.append('file', postImage); // Correctly append the file
+
 
         try {
-            await createPost(caption, postImage); // Ensure createPost matches the formData
+            await createPost(caption, postImage); // Pass customerId
             alert("Post created successfully");
         } catch (error) {
             console.error("Error creating post", error);
@@ -28,11 +26,13 @@ const CreatePostForm = () => {
         }
     };
 
+
     return (
         <form className="justify-center items-center bg-mainGray text-white min-h-screen " onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="caption">Caption</label>
                 <input
+                    className="text-black"
                     type="text"
                     id="caption"
                     value={caption}
