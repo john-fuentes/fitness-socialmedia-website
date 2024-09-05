@@ -40,8 +40,8 @@ public class PostController {
 
     @GetMapping(value = "/images/{postImageId}",
             produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getPostImage(@PathVariable("postImageId") String postImageId) {
-        return postService.getPostImage(postImageId);
+    public byte[] getPostImage(@PathVariable("postImageId") Integer customerId, String postImageId) {
+        return postService.getPostImage(customerId, postImageId);
     }
 
     // Updated createPost method to accept customerId via the URL

@@ -137,7 +137,7 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public byte[] getPostImage(String postImageId, Integer customerId) {
+    public byte[] getPostImage(Integer customerId, String postImageId) {
         if (StringUtils.isBlank(postImageId)) {
             throw new ResourceNotFoundException("Post image not found");
         }
