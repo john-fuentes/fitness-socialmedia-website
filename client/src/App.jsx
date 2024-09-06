@@ -11,7 +11,8 @@ import RegisterPage from "./Pages/RegisterPage.jsx";
 import MainFeedPage from "./Pages/MainFeedPage.jsx";
 
 import AccountSettings from "./Pages/AccountSettings.jsx";
-import CreatePostForm from "./Pages/CreatePostForm.jsx"; // Example page
+import CreatePostForm from "./Pages/CreatePostForm.jsx";
+import PublicProfilePage from "./Pages/PublicProfilePage.jsx"; // Example page
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/mainfeedpage" element={<MainFeedPage />}/>
             <Route path="/settings/:username" element={<AccountSettings/>}/>
             <Route path="/post" element={<CreatePostForm/>}/>
+            <Route path="/profile/:customerId" element={<PublicProfilePage />} />
         </Routes>
       </AuthProvider>
   );

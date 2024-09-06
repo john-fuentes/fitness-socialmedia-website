@@ -1,6 +1,6 @@
 import { useAuth } from "../context/AuthContext.jsx";
 import React, { useEffect, useState } from "react";
-import { customerProfilePictureUrl, fetchCustomerPosts } from "../services/client.js";
+import { customerProfilePictureUrl, fetchCustomerPosts, getPostImageUrl } from "../services/client.js";
 import { Link } from "react-router-dom";
 
 export default function ProfilePage() {
@@ -9,6 +9,7 @@ export default function ProfilePage() {
     const profileImage = customerId ? customerProfilePictureUrl(customerId) : null;
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [postImages, setPostImages] = useState({});
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -16,6 +17,16 @@ export default function ProfilePage() {
                 try {
                     const data = await fetchCustomerPosts(customerId);
                     setPosts(data);
+
+                    // Fetch image URLs for each post
+                    const images = {};
+                    for (const post of data) {
+                        if (post.postImageId) {
+                            const imageUrl = await getPostImageUrl(customerId, post.id, post.postImageId);
+                            images[post.id] = imageUrl;
+                        }
+                    }
+                    setPostImages(images);
                 } catch (error) {
                     console.error("Error fetching posts:", error);
                 } finally {
@@ -34,8 +45,9 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="bg-mainGray min-h-screen">
-            <div className="py-10 flex justify-center items-center bg-mainGray">
+        <div className="bg-mainGray min-h-screen flex flex-col items-center">
+            {/* Profile Image */}
+            <div className="py-10 bg-mainGray">
                 {profileImage && (
                     <img
                         src={profileImage}
@@ -44,26 +56,46 @@ export default function ProfilePage() {
                     />
                 )}
             </div>
-            <div className="text-white text-4xl flex justify-center items-center bg-mainGray">
+            <div className="text-white text-4xl bg-mainGray">
                 {customer.name}
             </div>
-            <div className="posts-container">
-                {posts.map(post => (
-                    <div key={post.id} className="post">
-                        <h3>{post.caption}</h3>
-                        {post.postImageId && (
-                            <img
-                                src={`${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/images/${post.postImageId}`}
-                                alt="Post"
-                                className="post-image"
-                            />
-                        )}
-                    </div>
-                ))}
+
+            {/* Display posts with similar styling as MainFeedPage */}
+            <div className="posts-container mt-4">
+                {posts.length > 0 ? (
+                    posts.map(post => (
+                        <div key={post.id} className="post bg-white rounded-lg shadow-lg mb-4 min-h-[816px] max-w-[470px]">
+                            <div className="p-2 flex items-center mb-1">
+                                {/* Display customer profile image */}
+                                {post.customerProfileImageId && (
+                                    <img
+                                        src={customerProfilePictureUrl(post.customerId)}
+                                        alt="Customer Profile"
+                                        className="h-10 w-10 rounded-full mr-4"
+                                    />
+                                )}
+                                {/* Display customer name */}
+                                <h3 className="text-lg font-bold">{post.customerName}</h3>
+                            </div>
+
+                            {/* Display post image */}
+                            {post.postImageId && postImages[post.id] && (
+                                <img
+                                    src={postImages[post.id]}
+                                    alt="Post"
+                                    className="min-h-[600px] bg-black mt-2 w-full object-contain"
+                                />
+                            )}
+                            <p className="p-4">{post.caption}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No posts available</p>
+                )}
             </div>
-            <Link to="/post">
-                Hello
-            </Link>
+
+            <Link to="/post">Create a Post</Link>
+            <Link to="/mainfeedpage">Look at main feed</Link>
         </div>
     );
 }

@@ -144,7 +144,7 @@ public class PostService {
 
         byte[] postImage = s3Service.getObject(
                 s3Buckets.getPost(),
-                "post-images/%s".formatted(postImageId)
+                "post-images/%s/%s".formatted(customerId, postImageId)
         );
         return postImage;
     }

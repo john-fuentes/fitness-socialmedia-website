@@ -96,10 +96,11 @@ public class PostJDBCDataAccessService implements PostDao {
     @Override
     public List<Post> selectAllPosts() {
         var sql = """
-                SELECT id, caption, post_image_id, customer_id
-                FROM post
-                LIMIT 1000
-                """;
+            SELECT p.id, p.caption, p.post_image_id, p.customer_id, c.name, c.profile_image_id
+            FROM post p
+            JOIN customer c ON p.customer_id = c.id
+            LIMIT 1000
+            """;
         return jdbcTemplate.query(sql, postRowMapper);
     }
 

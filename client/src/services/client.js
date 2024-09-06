@@ -18,11 +18,11 @@ export const getCustomers = async () => {
     }
 }
 
-export const getCustomer = async () =>{
+export const getCustomer = async (customerId) =>{
     // eslint-disable-next-line no-useless-catch
     try{
         return await axios.get(
-            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/{$customerId}`
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/customers/${customerId}`
         )
     }catch (e) { throw e;
 
@@ -131,3 +131,34 @@ export const fetchCustomerPosts = async (customerId) => {
         throw e;
     }
 };
+
+export const getPostImageUrl = async (customerId, postId, postImageId) => {
+    try {
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/images/${postId}`, {
+                params: { customerId, postImageId },
+                responseType: 'arraybuffer', // This ensures raw binary data is returned
+                ...getAuthConfig(),
+            }
+        );
+        // Create a Blob from the binary data
+        const blob = new Blob([response.data], { type: response.headers['content-type'] });
+        // Create a URL for the Blob
+        return URL.createObjectURL(blob);
+    } catch (e) {
+        console.error("Error fetching post image:", e);
+        throw e;
+    }
+};
+
+export const getAllPosts = async () => {
+    try{
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_BASE_URL}/api/v1/posts/allposts`,
+            getAuthConfig()
+        )
+        return response.data;
+    }catch (e){
+        throw e;
+    }
+}

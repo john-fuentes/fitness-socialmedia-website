@@ -4,6 +4,7 @@ import com.amigoscode.jwt.JWTUtil;
 import com.amigoscode.s3.S3Buckets;
 import com.amigoscode.s3.S3Service;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,16 +34,24 @@ public class PostController {
         return postService.getPostsByCustomer(customerId);
     }
 
-    @GetMapping
-    public List<PostDTO> getAllPosts() {
-        return postService.getAllPosts();
+    @GetMapping("/allposts")
+    public ResponseEntity<List<PostDTO>> getAllPosts() {
+        try {
+            List<PostDTO> posts = postService.getAllPosts();
+            return ResponseEntity.ok(posts);
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
-    @GetMapping(value = "/images/{postImageId}",
-            produces = MediaType.IMAGE_JPEG_VALUE)
-    public byte[] getPostImage(@PathVariable("postImageId") Integer customerId, String postImageId) {
+    @GetMapping(value = "/images/{postId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] getPostImage(@PathVariable("postId") @RequestParam("customerId") Integer customerId, @RequestParam("postImageId") String postImageId) {
         return postService.getPostImage(customerId, postImageId);
     }
+
+
 
     // Updated createPost method to accept customerId via the URL
     @PreAuthorize("hasRole('ROLE_USER')")
