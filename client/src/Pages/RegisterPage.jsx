@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 import {errorNotification, successNotification} from "../services/notification.js";
 import {saveCustomer} from "../services/client.js";
@@ -11,7 +11,8 @@ export default function RegisterPage(){
     const [password,setPassword] = useState('');
     const [name,setName] = useState('');
     const [age, setAge] = useState('');
-    const [gender, setGender] = useState('');
+    const [gender, setGender] = useState('OTHER');
+    const [redirect, setRedirect] = useState(false);
 
 
     async function registerUser(ev){
@@ -25,14 +26,18 @@ export default function RegisterPage(){
             gender
         }
         try{
-            const response = await saveCustomer(customer);
-            successNotification('Registration successful. Now you can log in');
-            console.log(response)
+            await saveCustomer(customer);
+            alert('Registration successful');
+            setRedirect(true)
         }catch(e){
-            errorNotification('Registration failed. Please try again later');
-            console.error(e)
+            alert('Registration failed');
         }
     }
+
+    if(redirect){
+        return <Navigate to="/login" />
+    }
+
     return(
         <div className="grow flex items-center justify-around bg-mainGray text-white min-h-screen">
             <div className="mb-64">
@@ -43,7 +48,11 @@ export default function RegisterPage(){
                     <input type="password" placeholder="password" value={password}
                            onChange={ev => setPassword(ev.target.value)}/>
                     <input type="number" placeholder="age" value={age} onChange={ev => setAge(ev.target.value)}/>
-                    <input type="text" placeholder="gender" value={gender} onChange={ev => setGender(ev.target.value)}/>
+                    <select name="gender" value={gender} onChange={ev => setGender(ev.target.value)}>
+                        <option value="OTHER">OTHER</option>
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                    </select>
                     <button className="primary mt-1">Register</button>
                 </form>
                 <div className="text-center mt-1">

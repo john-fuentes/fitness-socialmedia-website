@@ -16,7 +16,7 @@ export default function ProfilePage() {
             if (customerId) {
                 try {
                     const data = await fetchCustomerPosts(customerId);
-                    setPosts(data);
+                    setPosts(data.reverse());
 
                     // Fetch image URLs for each post
                     const images = {};
@@ -48,17 +48,28 @@ export default function ProfilePage() {
         <div className="bg-mainGray min-h-screen flex flex-col items-center">
             {/* Profile Image */}
             <div className="py-10 bg-mainGray">
-                {profileImage && (
+                {profileImage? (
                     <img
                         src={profileImage}
                         alt="Profile"
                         className="h-56 w-56 object-cover rounded-full"
                     />
-                )}
+                ) : (<Link to={`/settings/${customer.username}`}>
+                        <div className="h-56 w-56 object-cover rounded-full border flex justify-center items-center text-white">
+                            Upload a profile image!
+                        </div>
+
+                        </Link>
+
+                    )}
             </div>
-            <div className="text-white text-4xl bg-mainGray">
+            <div className="text-white text-4xl bg-mainGray mb-6">
                 {customer.name}
             </div>
+
+            <Link to="/post" className="bg-primary py-2 px-6 max-w-xs text-center rounded-full">
+                Add New Post
+            </Link>
 
             {/* Display posts with similar styling as MainFeedPage */}
             <div className="posts-container mt-4">
@@ -90,12 +101,9 @@ export default function ProfilePage() {
                         </div>
                     ))
                 ) : (
-                    <p>No posts available</p>
+                    <h1 className="text-white text-lg my-4">Create your first post!</h1>
                 )}
             </div>
-
-            <Link to="/post">Create a Post</Link>
-            <Link to="/mainfeedpage">Look at main feed</Link>
         </div>
     );
 }

@@ -23,6 +23,8 @@ public class Post {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    private Integer likeCount = 0;
+
     public Post(Integer id, String caption, String postImageId, Customer customer) {
         this.id = id;
         this.postImageId = postImageId;
@@ -68,6 +70,14 @@ public class Post {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
     }
 
     @Override

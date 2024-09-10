@@ -19,14 +19,14 @@ function App() {
       <AuthProvider>
         <WebHeader />
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/profile/:username" element={<ProfilePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />}/>
-          <Route path="/mainfeedpage" element={<MainFeedPage />}/>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/publicprofile/:customerId" element={<PublicProfilePage />} />
+            <Route path="/profile/:username" element={<ProfilePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />}/>
+            <Route path="/mainfeedpage" element={<MainFeedPage />}/>
             <Route path="/settings/:username" element={<AccountSettings/>}/>
             <Route path="/post" element={<CreatePostForm/>}/>
-            <Route path="/profile/:customerId" element={<PublicProfilePage />} />
         </Routes>
       </AuthProvider>
   );

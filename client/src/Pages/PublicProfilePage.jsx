@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { customerProfilePictureUrl, fetchCustomerPosts, getCustomer, getPostImageUrl } from "../services/client.js";
+import { customerProfilePictureUrl, fetchCustomerPosts, getPostImageUrl } from "../services/client.js";
 
 export default function PublicProfilePage() {
-    const { customerId } = useParams();// Get customerId from URL
+    const { customerId } = useParams(); // Get customerId from URL
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [postImages, setPostImages] = useState({});
@@ -13,9 +13,8 @@ export default function PublicProfilePage() {
     useEffect(() => {
         const fetchCustomerData = async () => {
             try {
-
                 const postData = await fetchCustomerPosts(customerId); // Fetch posts for this customer
-                setPosts(postData);
+                setPosts(postData.reverse());
 
                 // Fetch image URLs for each post
                 const images = {};
@@ -35,7 +34,7 @@ export default function PublicProfilePage() {
         };
 
         fetchCustomerData();
-    }); // Re-run when customerId changes
+    }, [customerId]); // Re-run when customerId changes
 
     if (loading) {
         return <div>Loading...</div>;
@@ -45,20 +44,25 @@ export default function PublicProfilePage() {
         return <div>Error: {error}</div>;
     }
 
+    // Extract customer info from the first post
+    const firstPost = posts.length > 0 ? posts[0] : null;
+    const customerProfileImage = firstPost ? customerProfilePictureUrl(firstPost.customerId) : null;
+    const customerName = firstPost ? firstPost.customerName : null;
+
     return (
         <div className="bg-mainGray min-h-screen flex flex-col items-center">
-            {/* Profile Image */}
+            {/* Display the profile image and customer name at the top */}
             <div className="py-10 bg-mainGray">
-                {customer && (
+                {customerProfileImage && (
                     <img
-                        src={customerProfilePictureUrl(customerId)}
-                        alt={`${customer.name}'s Profile`}
+                        src={customerProfileImage}
+                        alt="Profile"
                         className="h-56 w-56 object-cover rounded-full"
                     />
                 )}
             </div>
-            <div className="text-white text-4xl bg-mainGray">
-                {customer ? `${customer.name}'s Profile` : "Profile"}
+            <div className="text-white text-4xl bg-mainGray mb-4">
+                {customerName || "Profile"}
             </div>
 
             {/* Display posts with similar styling as MainFeedPage */}
@@ -84,7 +88,7 @@ export default function PublicProfilePage() {
                                     className="min-h-[600px] bg-black mt-2 w-full object-contain"
                                 />
                             )}
-                            <p className="p-4">{post.caption}</p>
+                            <p className="p-4"><b>{post.customerName}</b>   {post.caption}</p>
                         </div>
                     ))
                 ) : (

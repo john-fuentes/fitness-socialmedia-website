@@ -68,7 +68,7 @@ export default function AccountSettings() {
                         <div {...getRootProps()}>
                             <input {...getInputProps()} />
                             <div className="border py-2 px-6 max-w-xs text-center rounded-full cursor-pointer">
-                                Drag and drop some files here, or click to select files
+                                Drag and drop, or click to select profile picture
                             </div>
                         </div>
                     </section>

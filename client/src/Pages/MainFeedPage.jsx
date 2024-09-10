@@ -16,7 +16,7 @@ export default function MainFeedPage() {
         const fetchPosts = async () => {
             try {
                 const data = await getAllPosts(); // Fetch all posts
-                setPosts(data);
+                setPosts(data.reverse());
 
                 // Fetch image URLs for each post
                 const images = {};
@@ -48,10 +48,11 @@ export default function MainFeedPage() {
 
 
             {/* Display posts */}
-            <div className="posts-container mt-4">
+            <div className="posts-container mt-8">
                 {posts.length > 0 ? (
                     posts.map(post => (
-                        <div key={post.id} className="post bg-white rounded-lg shadow-lg mb-4 min-h-[816px] max-w-[470px]">
+                        <div key={post.id}
+                             className="post bg-white rounded-lg shadow-lg mb-8 min-h-[816px] max-w-[470px]">
                             <div className="p-2 flex items-center mb-1">
                                 {/* Display customer profile image */}
                                 {post.customerProfileImageId && (
@@ -62,7 +63,8 @@ export default function MainFeedPage() {
                                     />
                                 )}
                                 {/* Display customer name */}
-                                <Link to={`/profile/${post.customerId}`} className="text-lg font-bold">{post.customerName}</Link>
+                                <Link to={`/publicprofile/${post.customerId}`}
+                                      className="text-lg font-bold">{post.customerName}</Link>
                             </div>
 
                             {/* Display post caption */}
@@ -75,7 +77,7 @@ export default function MainFeedPage() {
                                     className="min-h-[600px] bg-black mt-2 w-full object-contain"
                                 />
                             )}
-                            <p className="p-4">{post.caption}</p>
+                            <p className="p-4"><b>{post.customerName}</b> {post.caption}</p>
                         </div>
                     ))
                 ) : (
